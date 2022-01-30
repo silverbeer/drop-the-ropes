@@ -13,7 +13,7 @@ jobs:
 
       # setup python
       - name: Setup python
-      - uses: actions/setup-python@v2
+        uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
@@ -43,7 +43,7 @@ jobs:
           zip -r9 ../../../../api.zip .
 
       - name: add api package to the zip file
-      - run: cd ./api && zip -g ../api.zip -r .
+        run: cd ./api && zip -g ../api.zip -r .
 
       - name: upload zip file artifact
         uses: actions/upload-artifact@v2
