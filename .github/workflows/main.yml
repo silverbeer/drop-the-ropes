@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # setup python
+      - name: Setup python
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -28,17 +29,21 @@ jobs:
           key: ${{ runer.os }}-venv-${{ hashFiles('**/requirements.txt') }}
           restore-keys: /
             ${{ runner.os }}-venv-
+
       - name: Activate venv
         run: python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
         if: steps.cache-venv.output.cache-hit != 'true'
+
       - name: Run tests
         run: . venv/bin/activate && pytest
       - name: Create archive of dependencies
-        run: /
+        run: |
           cd ./venv/lib/python3.9/site-packages
           zip -r9 ../../../../api.zip .
+
       - name: add api package to the zip file
       - run cd ./api && zip -g ../api.zip -r .
+
       - name: upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
